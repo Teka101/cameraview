@@ -449,6 +449,13 @@ public class CameraView extends FrameLayout {
             }
         }
 
+        @Override
+        public void onPreviewFrame(byte[] data, int format, int width, int height) {
+            for (Callback callback : mCallbacks) {
+                callback.onPreviewFrame(data, format, width, height);
+            }
+        }
+
         public void reserveRequestLayoutOnOpen() {
             mRequestLayoutOnOpen = true;
         }
@@ -535,6 +542,17 @@ public class CameraView extends FrameLayout {
          */
         public void onPictureTaken(CameraView cameraView, byte[] data) {
         }
+
+        /**
+         * Called when a preview frame is rendered
+         * @param data raw byte data
+         * @param format data format
+         * @param width image width
+         * @param height image height
+         */
+        public void onPreviewFrame(byte[] data, int format, int width, int height){
+        }
+
     }
 
 }
