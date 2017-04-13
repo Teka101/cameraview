@@ -398,7 +398,7 @@ class Camera2 extends CameraViewImpl {
                     CameraCharacteristics.INFO_SUPPORTED_HARDWARE_LEVEL);
             if (level == null ||
                     level == CameraCharacteristics.INFO_SUPPORTED_HARDWARE_LEVEL_LEGACY) {
-                return false;
+                return true;
             }
             Integer internal = mCameraCharacteristics.get(CameraCharacteristics.LENS_FACING);
             if (internal == null) {
