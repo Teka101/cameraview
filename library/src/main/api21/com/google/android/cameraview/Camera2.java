@@ -19,6 +19,7 @@ package com.google.android.cameraview;
 import android.annotation.TargetApi;
 import android.content.Context;
 import android.graphics.ImageFormat;
+import android.graphics.PixelFormat;
 import android.hardware.camera2.CameraAccessException;
 import android.hardware.camera2.CameraCaptureSession;
 import android.hardware.camera2.CameraCharacteristics;
@@ -478,7 +479,7 @@ class Camera2 extends CameraViewImpl {
         }
 
         mCallbackImageDataReader = ImageReader.newInstance(width, height,
-                ImageFormat.NV21, /* maxImages */ 1);
+                PixelFormat.RGBA_8888, /* maxImages */ 1);
         mCallbackImageDataReader.setOnImageAvailableListener(mOnPreviewImageAvailableListener, null);
     }
 
