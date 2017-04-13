@@ -213,6 +213,7 @@ class Camera2 extends CameraViewImpl {
         mPreview.setCallback(new PreviewImpl.Callback() {
             @Override
             public void onSurfaceChanged() {
+                prepareImageReader();
                 startCaptureSession();
             }
         });
@@ -467,6 +468,11 @@ class Camera2 extends CameraViewImpl {
     }
 
     private void initImageReader(int width, int height){
+
+        if (mImageReader != null) {
+            mImageReader.close();
+        }
+
         mImageReader = ImageReader.newInstance(width, height,
                 ImageFormat.JPEG, /* maxImages */ 2);
         mImageReader.setOnImageAvailableListener(mOnImageAvailableListener, null);
