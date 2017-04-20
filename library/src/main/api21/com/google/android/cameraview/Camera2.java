@@ -158,7 +158,7 @@ class Camera2 extends CameraViewImpl {
 
         @Override
         public void onImageAvailable(ImageReader reader) {
-            byte[] data = getByteDataFromImageReader(reader);
+            byte[] data = getByteDataFromImageReader(reader, null);
             if (data != null) {
                 mCallback.onPictureTaken(data);
             }
@@ -170,11 +170,14 @@ class Camera2 extends CameraViewImpl {
 
         @Override
         public void onImageAvailable(ImageReader reader) {
-            byte[] data = getByteDataFromImageReader(reader);
+            int[] strides = new int[2];
+            byte[] data = getByteDataFromImageReader(reader, strides);
             if (data != null) {
                 mCallback.onPreviewFrame(data, reader.getImageFormat(),
                         reader.getWidth(),
-                        reader.getHeight());
+                        reader.getHeight(),
+                        strides[0],
+                        strides[1]);
             }
         }
     };
@@ -492,15 +495,22 @@ class Camera2 extends CameraViewImpl {
     /**
      * Extract the byte data from the ImageReader
      * @param reader
+     * @param stridesOut if not null then pixel stride and row stride are stored (in this order)
      * @return byte array or null if failed
      */
     @Nullable
-    private byte[] getByteDataFromImageReader(@NonNull ImageReader reader) {
+    private byte[] getByteDataFromImageReader(@NonNull ImageReader reader, @Nullable int[] stridesOut) {
         byte[] data = null;
         try (Image image = reader.acquireNextImage()) {
             Image.Plane[] planes = image.getPlanes();
             if (planes.length > 0) {
-                ByteBuffer buffer = planes[0].getBuffer();
+                Image.Plane plane = planes[0];
+
+                if (stridesOut != null && stridesOut.length == 2) {
+                    stridesOut[0] = plane.getPixelStride();
+                    stridesOut[1] = plane.getRowStride();
+                }
+                ByteBuffer buffer = plane.getBuffer();
                 data = new byte[buffer.remaining()];
                 buffer.get(data);
             }

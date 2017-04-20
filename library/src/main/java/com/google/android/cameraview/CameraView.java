@@ -450,9 +450,9 @@ public class CameraView extends FrameLayout {
         }
 
         @Override
-        public void onPreviewFrame(byte[] data, int format, int width, int height) {
+        public void onPreviewFrame(byte[] data, int format, int width, int height, int pixelStride, int rowStride) {
             for (Callback callback : mCallbacks) {
-                callback.onPreviewFrame(data, format, width, height);
+                callback.onPreviewFrame(data, format, width, height, pixelStride, rowStride);
             }
         }
 
@@ -550,7 +550,7 @@ public class CameraView extends FrameLayout {
          * @param width image width
          * @param height image height
          */
-        public void onPreviewFrame(byte[] data, int format, int width, int height){
+        public void onPreviewFrame(byte[] data, int format, int width, int height, int pixelStride, int rowStride) {
         }
 
     }

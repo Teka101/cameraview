@@ -128,7 +128,7 @@ class Camera1 extends CameraViewImpl {
                     final Camera.Parameters parameters = camera.getParameters();
                     final int width = parameters.getPreviewSize().width;
                     final int height = parameters.getPreviewSize().height;
-                    mCallback.onPreviewFrame(data, parameters.getPreviewFormat(), width, height);
+                    mCallback.onPreviewFrame(data, parameters.getPreviewFormat(), width, height, 0, 0);
                 }
             });
 
